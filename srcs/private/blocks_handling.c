@@ -5,11 +5,6 @@ t_lst *split_block(t_lst *page, t_lst *block, size_t size)
 {
 	t_header_block *next;
 
-	ft_print("split block capa : %d < %d < %d\n", 
-		PAGE(page)->capacity,
-		(block_size(size) + sizeof(t_header_block)),
-		(block_size(size) + sizeof(t_header_block) * 2)
-	);
 	if (PAGE(page)->capacity >= (block_size(size) + sizeof(t_header_block) * 2))
 	{
 		next = (void *)BLOCK(block) + sizeof(t_header_block)
