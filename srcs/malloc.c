@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 void ooo(void)
-{
+	{
 	t_lst *tmp_page = g_malloc.small_list;
 	t_lst *block;
 	int i;
@@ -13,13 +13,21 @@ void ooo(void)
 	while (tmp_page)
 	{
 		i = 0;
-		block = &PAGE(tmp_page)->block;
+		block = PAGE(tmp_page)->block;
+		ft_print("PAGE INFO : \n"
+				"Size: %d\nCapa: %d\nNext: %d\n",
+				PAGE(tmp_page)->size, PAGE(tmp_page)->capacity,
+				tmp_page->next != 0);
 		while (block)
 		{
+			ft_print("BLOCK INFO : \n"
+					"Size: %d\nFree?:%d\nNext:%d\n",
+					BLOCK(block)->size,
+					BLOCK(block)->is_free, block->next != 0);
 			i++;
 			block = block->next;
 		}
-		// ft_fdprint(2, "[%d][%d]\n", j, i);
+		ft_fdprint(2, "[%d][%d]\n", j, i);
 		tmp_page = tmp_page->next;
 		j++;
 	}
@@ -30,11 +38,9 @@ void *malloc(size_t size)
 	t_lst			*block;
 
 	if (size <= 0 || (!g_malloc.init && malloc_initialize() <= 0))
-		return (NULL);
-	// pthread_mutex_lock(&g_malloc_lock);
-	// ft_fdprint(2, "\nmalloc\n");
-	block = malloc_getblock(size);
-	// ooo();
+		return (0);
+	if (!(block = malloc_getblock(size)))
+		return (0);
 	return (BLOCK(block) + sizeof(t_header_block));
 }
 
@@ -50,13 +56,5 @@ int		main(void)
 		addr[0] = 42;
 		i++;
 	}
-	// addr = (char *)malloc(1024);
-	// addr[i] = 'a';
-	// addr[1] = 0;
-
-	// addr = (char *)malloc(1024);
-	// addr[0] = 'b';
-	// addr[1] = 0;	
-
 	return (0);
 }

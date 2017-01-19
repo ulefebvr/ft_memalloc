@@ -20,13 +20,12 @@ typedef struct						s_header_page
 	size_t							size;
 	size_t							capacity;
 	t_lst							list;
-	t_lst							block;
+	t_lst							*block;
 }									t_header_page;
 
 typedef struct						s_header_block
 {
 	size_t							size;
-	// size_t							capacity;
 	t_lst							list;
 	// t_lst							*blocks;
 	// void							*ptr;
