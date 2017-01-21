@@ -29,6 +29,7 @@ typedef struct						s_header_block
 	t_lst							list;
 	// t_lst							*blocks;
 	// void							*ptr;
+	t_lst							*page;
 	int								is_free;
 }									t_header_block;
 

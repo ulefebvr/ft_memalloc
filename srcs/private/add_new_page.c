@@ -8,6 +8,7 @@ t_lst	*create_new_block(t_lst *page)
 	block = (void *)(PAGE(page)) + sizeof(t_header_page);
 	block->size = PAGE(page)->capacity;
 	block->is_free = 1;
+	block->page = page;
 	ft_bzero(&block->list, sizeof(t_lst));
 	PAGE(page)->capacity -= sizeof(t_header_block);
 	return (&block->list);
