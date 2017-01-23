@@ -76,6 +76,8 @@ t_lst			*add_new_page(size_t size);
 
 t_lst			*malloc_getblock(size_t size);
 
+t_lst			*check_adress(void *ptr);
+
 void			*internal_realloc(t_lst *block, size_t size);
 
 #endif
