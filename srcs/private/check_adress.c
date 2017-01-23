@@ -4,7 +4,8 @@ t_lst	*found_block(t_lst *block, void *ptr)
 {
 	while (block)
 	{
-		if ((void *)BLOCK(block) + sizeof(t_header_block) == ptr)
+		if ((void *)BLOCK(block) + sizeof(t_header_block) == ptr
+			&& ! BLOCK(block)->is_free)
 			return (block);
 		block = block->next;
 	}
