@@ -21,8 +21,8 @@ t_lst *split_block(t_lst *page, t_lst *block, size_t size)
 
 void join_block(t_lst *b1, t_lst *b2)
 {
-	b1->size = b2->size + sizeof(t_header_block);
+	BLOCK(b1)->size = BLOCK(b2)->size + sizeof(t_header_block);
 	b1->next = b2->next;
 	if (b2->next) b2->next->prev = b1;
-	b1->is_free = 1;
+	BLOCK(b1)->is_free = 1;
 }

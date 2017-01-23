@@ -9,5 +9,6 @@ void	free(void *ptr)
 	block = ptr - sizeof(t_header_block);
 	block->is_free = 1;
 	PAGE(block->page)->capacity += block->size;
-	apply_buddy_check(block);
+	apply_buddy_check(
+		&((t_header_block *)(block - sizeof(t_header_block)))->list);
 }

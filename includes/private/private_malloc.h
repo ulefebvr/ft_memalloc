@@ -27,8 +27,6 @@ typedef struct						s_header_block
 {
 	size_t							size;
 	t_lst							list;
-	// t_lst							*blocks;
-	// void							*ptr;
 	t_lst							*page;
 	int								is_free;
 }									t_header_block;
@@ -64,8 +62,6 @@ pthread_mutex_t						g_malloc_lock;
 # define BLOCK(x)					(CONTAINEROF(x, t_header_block, list))
 # define PAGE(x)					(CONTAINEROF(x, t_header_page, list))
 
-t_lst			*lst_get_head(t_lst *list);
-
 int				malloc_initialize(void);
 
 t_lst			**get_type(size_t size);
@@ -73,9 +69,13 @@ size_t			page_size(size_t size);
 size_t			block_size(size_t size);
 
 t_lst			*split_block(t_lst *page, t_lst *block, size_t size);
+void			join_block(t_lst *b1, t_lst *b2);
+void			apply_buddy_check(t_lst *block);
 
 t_lst			*add_new_page(size_t size);
 
 t_lst			*malloc_getblock(size_t size);
+
+void			*internal_realloc(t_lst *block, size_t size);
 
 #endif

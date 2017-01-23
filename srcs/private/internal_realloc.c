@@ -1,3 +1,4 @@
+#include "libft.h"
 #include "private_malloc.h"
 
 void	add_block(t_lst *block, size_t size)
@@ -8,7 +9,7 @@ void	add_block(t_lst *block, size_t size)
 	{
 		ft_memcpy((void *)BLOCK(block) + size,
 			BLOCK(block->next), sizeof(t_header_block));
-		block->next = BLOCK(block) + size;
+		block->next = (void *)BLOCK(block) + size;
 		BLOCK(block->next)->size = 
 			BLOCK(block)->size - size - sizeof(t_header_block);
 	}
@@ -18,10 +19,10 @@ void	add_block(t_lst *block, size_t size)
 		new->size = BLOCK(block)->size - sizeof(t_header_block);
 		PAGE(BLOCK(block)->page)->capacity -= sizeof(t_header_block);
 		new->is_free = 1;
-		new->list.next = BLOCK(block)->next;
+		new->list.next = block->next;
 		new->list.prev = block;
 		new->page = BLOCK(block)->page;
-		block->next = new;
+		block->next = &new->list;
 	}
 }
 

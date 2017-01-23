@@ -1,3 +1,4 @@
+#include "malloc.h"
 #include "private_malloc.h"
 
 void *realloc(void *ptr, size_t size)
@@ -8,7 +9,10 @@ void *realloc(void *ptr, size_t size)
 	if (ptr == 0)
 		return (malloc(size));
 	else if (size == 0)
-		return (free(ptr));
-	block = &((t_header_block)(ptr - sizeof(t_header_block))->list);
+	{
+		free(ptr);
+		return (0);
+	}
+	block = &(((t_header_block *)(ptr - sizeof(t_header_block)))->list);
 	return (internal_realloc(block, size));
 }
