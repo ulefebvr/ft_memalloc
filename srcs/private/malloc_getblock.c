@@ -1,4 +1,3 @@
-#include "libft.h"
 #include "private_malloc.h"
 
 t_lst	*get_freed_block(size_t size, t_lst **page)
@@ -51,12 +50,22 @@ t_lst	*malloc_getblock(size_t size)
 	t_lst	*page;
 	t_lst	*block;
 
-	if ((block = get_freed_block(size, &page)));
+	THREAD_SAFE_ACTIVATE;
+	if ((block = get_freed_block(size, &page)))
+	{
+		;
+	}
 	else if ((page = add_new_page(size)))
+	{
 		block = PAGE(page)->block;
+	}
 	else
+	{
+
 		return (0);
+	}
 	split_block(page, block, size);
 	reserve_block(page, block, size);
+	THREAD_SAFE_DEACTIVATE;
 	return (block);
 }

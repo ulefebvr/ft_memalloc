@@ -62,6 +62,9 @@ pthread_mutex_t						g_malloc_lock;
 # define BLOCK(x)					(CONTAINEROF(x, t_header_block, list))
 # define PAGE(x)					(CONTAINEROF(x, t_header_page, list))
 
+# define THREAD_SAFE_ACTIVATE		pthread_mutex_lock(&g_malloc_lock)
+# define THREAD_SAFE_DEACTIVATE		pthread_mutex_unlock(&g_malloc_lock)
+
 int				malloc_initialize(void);
 
 t_lst			**get_type(size_t size);
