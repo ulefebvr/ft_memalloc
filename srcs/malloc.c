@@ -21,9 +21,12 @@ void ooo(void)
 		while (block)
 		{
 			ft_print("BLOCK INFO : \n"
-					"Size: %d\nFree?:%d\nNext:%d\n",
+					"Size: %d\nFree?:%d\nNext:%d\nPage:%d\n Page_size:%d\n",
 					BLOCK(block)->size,
-					BLOCK(block)->is_free, block->next != 0);
+					BLOCK(block)->is_free, block->next != 0,
+					BLOCK(block)->page != 0,
+					PAGE(BLOCK(block)->page)->size
+					);
 			i++;
 			block = block->next;
 		}
@@ -41,20 +44,64 @@ void *malloc(size_t size)
 		return (0);
 	if (!(block = malloc_getblock(size)))
 		return (0);
-	return (BLOCK(block) + sizeof(t_header_block));
+	return ((void *)BLOCK(block) + sizeof(t_header_block));
 }
 
-int		main(void)
-{
-	int		i;
-	char	*addr;
 
-	i = 0;
-	while (i < 1024)
-	{
-		addr = (char*)malloc(1024);
-		addr[0] = 42;
-		i++;
-	}
+#include "malloc.h"
+// int		main(void)
+// {
+// 	int		i;
+// 	char	*addr;
+
+// 	i = 0;
+// 	// while (i < 1024)
+// 	while (i < 10)
+// 	{
+// 		addr = (char*)malloc(1024);
+// 		addr[0] = 42;
+// 		i++;
+// 	}
+// 	show_alloc_mem();
+// 	return (0);
+// }
+
+// int		main(void)
+// {
+// 	int			i;
+// 	char		*addr;
+
+// 	i = 0;
+// 	while (i < 1024)
+// 	{
+// 		addr = (char*)malloc(1024);
+// 		// ooo();
+// 		addr[0] = 42;
+// 		free(addr);
+// 		i++;
+// 	}
+// 	show_alloc_mem();
+// 	return (0);
+// }
+
+
+#define M1 (1024 * 1024)
+
+void		print(char *s)
+{
+	write(1, s, strlen(s));
+}
+
+int			main(void)
+{
+	char	*addr1;
+	char	*addr3;
+
+	addr1 = (char *)malloc(16 * M1);
+	strcpy(addr1, "Bonjours\n");
+	print(addr1);
+	addr3 = (char *)realloc(addr1, 128 * M1);
+	addr3[127 * M1] = 42;
+	print(addr3);
 	return (0);
 }
