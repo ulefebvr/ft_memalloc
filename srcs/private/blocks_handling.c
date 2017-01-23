@@ -5,7 +5,7 @@ t_lst *split_block(t_lst *page, t_lst *block, size_t size)
 {
 	t_header_block *next;
 
-	if (PAGE(page)->capacity >= ((size) + sizeof(t_header_block) * 2))
+	if (BLOCK(block)->size >= ((size) + sizeof(t_header_block)))
 	{
 		next = (void *)BLOCK(block) + sizeof(t_header_block) + size;
 		ft_bzero(next, sizeof(t_header_block));
