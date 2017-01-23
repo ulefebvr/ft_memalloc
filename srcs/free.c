@@ -2,12 +2,11 @@
 
 void	free(void *ptr)
 {
-	t_header_block	*block;
+	t_lst	*block;
 
-	if (ptr == 0)
+	if (ptr == 0 || (block = check_adress(ptr)) == 0)
 		return ;
-	block = (t_header_block *)(ptr - sizeof(t_header_block));
-	block->is_free = 1;
-	PAGE(block->page)->capacity += block->size;
-	apply_buddy_check(&block->list);
+	BLOCK(block)->is_free = 1;
+	PAGE(BLOCK(block)->page)->capacity += BLOCK(block)->size;
+	apply_buddy_check(block);
 }
