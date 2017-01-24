@@ -6,6 +6,7 @@
 # include <stdint.h>
 # include <sys/mman.h>
 # include <stdio.h>
+# include <time.h>
 
 typedef unsigned long long int		t_ulli;
 
@@ -27,8 +28,9 @@ typedef struct						s_header_block
 {
 	size_t							size;
 	t_lst							list;
-	t_lst							*page;
 	int								is_free;
+	t_lst							*page;
+	time_t							time;
 }									t_header_block;
 
 typedef struct						s_malloc
@@ -64,6 +66,8 @@ pthread_mutex_t						g_malloc_lock;
 
 # define THREAD_SAFE_ACTIVATE		pthread_mutex_lock(&g_malloc_lock)
 # define THREAD_SAFE_DEACTIVATE		pthread_mutex_unlock(&g_malloc_lock)
+
+# define HEX_STRING					"0123456789ABCDEF"
 
 int				malloc_initialize(void);
 

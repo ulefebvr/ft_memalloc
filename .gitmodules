@@ -1,3 +1,0 @@
-[submodule "lib/ft_printf"]
-	path = lib/ft_printf
-	url = https://github.com/ulefebvr/printf.git
