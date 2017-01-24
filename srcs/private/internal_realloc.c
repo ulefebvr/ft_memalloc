@@ -57,7 +57,7 @@ void	*internal_realloc(t_lst *block, size_t size)
 
 	ptr = 0;
 	THREAD_SAFE_ACTIVATE;
-	if (block_size(size) == BLOCK(block)->size
+	if (block_size(size) == block_size(BLOCK(block)->size)
 		&& (ptr = change_block_size(block, size)))
 	{
 		((t_header_block *)(ptr - sizeof(t_header_block)))->time = time(0);

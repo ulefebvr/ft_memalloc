@@ -40,7 +40,7 @@ all: $(TARGET_EXEC) $(OBJS)
 # 	ranlib $(TARGET_EXEC)
 
 $(TARGET_EXEC): $(OBJS)
-	$(CC) -shared -fPIC -o $@ $(OBJS)
+	$(CC) -shared -o $@ $(OBJS)
 	ln -s $(TARGET_EXEC) libft_malloc.so
 
 # assembly
@@ -51,7 +51,7 @@ $(BUILD_DIR)/%.s.o: %.s
 # c source
 $(BUILD_DIR)/%.c.o: %.c
 	@$(MKDIR_P) $(dir $@)
-	$(CC) -shared -fPIC $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	$(CC) -fPIC $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 # c++ source
 $(BUILD_DIR)/%.cpp.o: %.cpp
@@ -61,7 +61,7 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 .PHONY: clean fclean re norme
 
 clean:
-	$(RM) -r $(BUILD_DIR)
+	$(RM) -r $(BUILD_DIR) libft_malloc.so
 
 fclean: clean
 	$(RM) $(TARGET_EXEC) libft_malloc.so
