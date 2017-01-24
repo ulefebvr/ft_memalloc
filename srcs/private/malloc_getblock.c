@@ -26,6 +26,7 @@ void	reserve_block(t_lst *page, t_lst *block, size_t size)
 {
 	BLOCK(block)->size = (size);
 	BLOCK(block)->is_free = 0;
+	BLOCK(block)->time = time(0);
 	PAGE(page)->capacity -= BLOCK(block)->size;
 }
 

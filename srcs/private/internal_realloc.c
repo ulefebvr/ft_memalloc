@@ -60,12 +60,13 @@ void	*internal_realloc(t_lst *block, size_t size)
 	if (block_size(size) == BLOCK(block)->size
 		&& (ptr = change_block_size(block, size)))
 	{
-		;
+		((t_header_block *)(ptr - sizeof(t_header_block)))->time = time(0);
 	}
 	else if ((ptr = malloc(size)))
 	{
 		memcpy(ptr, (void *)BLOCK(block) + sizeof(t_header_block), BLOCK(block)->size);
 		free((void *)BLOCK(block) + sizeof(t_header_block));
+		((t_header_block *)(ptr - sizeof(t_header_block)))->time = time(0);		
 	}
 	else
 	{
