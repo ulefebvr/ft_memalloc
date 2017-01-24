@@ -18,7 +18,7 @@ TARGET_EXEC ?= libft_malloc_$(HOSTTYPE).so
 
 BUILD_DIR ?= ./build
 SRC_DIRS ?= ./srcs
-INC_DIR ?= ./includes
+INC_DIR ?= ./includes ./lib/libft/includes
 
 SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
@@ -31,7 +31,7 @@ CPPFLAGS ?= $(INC_FLAGS) -MMD -MP -Wall -Werror -Wextra
 
 # Extra flags to give to compilers when they are supposed to invoke the linker, ‘ld’, such as -L.
 # Libraries (-lfoo) should be added to the LDLIBS variable instead.
-# LDFLAGS ?=
+LDFLAGS ?= -fPIC -L ./lib/libft/ -lft -L ./lib/ft_printf -lftprintf
 
 all: $(TARGET_EXEC) $(OBJS)
 
@@ -40,7 +40,10 @@ all: $(TARGET_EXEC) $(OBJS)
 # 	ranlib $(TARGET_EXEC)
 
 $(TARGET_EXEC): $(OBJS)
-	$(CC) $(OBJS) -o $@ $(LDFLAGS)
+	make -C lib/libft
+	make -C lib/ft_printf
+	$(CC) -o $@ $(OBJS) $(LDFLAGS)
+# ln -s $(TARGET_EXEC) libft_malloc.so
 
 # assembly
 $(BUILD_DIR)/%.s.o: %.s
@@ -50,21 +53,24 @@ $(BUILD_DIR)/%.s.o: %.s
 # c source
 $(BUILD_DIR)/%.c.o: %.c
 	@$(MKDIR_P) $(dir $@)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	$(CC) -shared $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 # c++ source
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(MKDIR_P) $(dir $@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-
 .PHONY: clean fclean re norme
 
 clean:
 	$(RM) -r $(BUILD_DIR)
+	make clean -C lib/libft
+	make clean -C lib/ft_printf
 
 fclean: clean
 	$(RM) $(TARGET_EXEC)
+	make fclean -C lib/libft
+	make fclean -C lib/ft_printf
 
 re: fclean
 	make
