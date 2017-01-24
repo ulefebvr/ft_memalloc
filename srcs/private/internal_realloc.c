@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "malloc.h"
 #include "private_malloc.h"
 
 void	add_block(t_lst *block, size_t size)
@@ -64,7 +64,7 @@ void	*internal_realloc(t_lst *block, size_t size)
 	}
 	else if ((ptr = malloc(size)))
 	{
-		memcpy(ptr, (void *)BLOCK(block) + sizeof(t_header_block), BLOCK(block)->size);
+		ft_memcpy(ptr, (void *)BLOCK(block) + sizeof(t_header_block), BLOCK(block)->size);
 		free((void *)BLOCK(block) + sizeof(t_header_block));
 		((t_header_block *)(ptr - sizeof(t_header_block)))->time = time(0);		
 	}

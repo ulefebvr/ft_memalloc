@@ -1,4 +1,3 @@
-#include "libft.h"
 #include "private_malloc.h"
 
 int malloc_initialize(void)

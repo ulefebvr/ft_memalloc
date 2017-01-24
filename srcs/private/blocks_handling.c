@@ -1,4 +1,3 @@
-#include "libft.h"
 #include "private_malloc.h"
 
 t_lst *split_block(t_lst *page, t_lst *block, size_t size)

@@ -40,9 +40,8 @@ all: $(TARGET_EXEC) $(OBJS)
 # 	ranlib $(TARGET_EXEC)
 
 $(TARGET_EXEC): $(OBJS)
-	make -C lib/ft_printf
 	$(CC) -shared -fPIC -o $@ $(OBJS)
-# ln -s $(TARGET_EXEC) libft_malloc.so
+	ln -s $(TARGET_EXEC) libft_malloc.so
 
 # assembly
 $(BUILD_DIR)/%.s.o: %.s
@@ -65,7 +64,7 @@ clean:
 	$(RM) -r $(BUILD_DIR)
 
 fclean: clean
-	$(RM) $(TARGET_EXEC)
+	$(RM) $(TARGET_EXEC) libft_malloc.so
 
 re: fclean
 	make
