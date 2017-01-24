@@ -51,7 +51,7 @@ pthread_mutex_t						g_malloc_lock;
 # define TINY_PAGE_SIZE				(2 * PAGE_SIZE)
 # define TINY_MAX_ALLOC				128
 
-# define SMALL_PAGE_SIZE			(16 * PAGE_SIZE)
+# define SMALL_PAGE_SIZE			(16* PAGE_SIZE)
 # define SMALL_MAX_ALLOC			1024
 
 # define MMAP_PROT					(PROT_READ | PROT_WRITE)
@@ -90,5 +90,8 @@ t_lst			*malloc_getblock(size_t size);
 t_lst			*check_adress(void *ptr);
 
 void			*internal_realloc(t_lst *block, size_t size);
+
+void			free_large_page(t_lst *block);
+void			free_empty_page(t_lst *block);
 
 #endif

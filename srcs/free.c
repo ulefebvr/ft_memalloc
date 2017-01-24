@@ -9,6 +9,15 @@ void	free(void *ptr)
 	THREAD_SAFE_ACTIVATE;
 	BLOCK(block)->is_free = 1;
 	PAGE(BLOCK(block)->page)->capacity += BLOCK(block)->size;
-	apply_buddy_check(block);
+	if (block_size(BLOCK(block)->size) != TINY_MAX_ALLOC
+		&& block_size(BLOCK(block)->size) != SMALL_MAX_ALLOC)
+	{
+		free_large_page(block);
+	}
+	else
+	{
+		apply_buddy_check(block);
+		free_empty_page(block);
+	}
 	THREAD_SAFE_DEACTIVATE;
 }
