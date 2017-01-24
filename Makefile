@@ -18,7 +18,7 @@ TARGET_EXEC ?= libft_malloc_$(HOSTTYPE).so
 
 BUILD_DIR ?= ./build
 SRC_DIRS ?= ./srcs
-INC_DIR ?= ./includes ./lib/libft/includes
+INC_DIR ?= ./includes
 
 SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
@@ -63,11 +63,9 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 
 clean:
 	$(RM) -r $(BUILD_DIR)
-	make clean -C lib/ft_printf
 
 fclean: clean
 	$(RM) $(TARGET_EXEC)
-	make fclean -C lib/ft_printf
 
 re: fclean
 	make
