@@ -6,8 +6,8 @@ static void	show_all_blocks(t_lst *block)
 	{
 		if (!(BLOCK(block)->is_free))
 		{
-			ft_printf("%k %p - %p : %ld octets\n",
-				&BLOCK(block)->time,
+			ft_fdprint("%s %p - %p : %ld octets\n",
+				(char *)ctime(&BLOCK(block)->time),
 				(void *)BLOCK(block) + sizeof(t_header_block),
 				(void *)BLOCK(block) + BLOCK(block)->size
 				+ sizeof(t_header_block), BLOCK(block)->size
@@ -19,9 +19,10 @@ static void	show_all_blocks(t_lst *block)
 
 static void	show_all_pages(t_lst *pages, char *type)
 {
+	(void)type;
 	while (pages)
 	{
-		ft_printf("%s : %p\n", type, 
+		ft_fdprint(1, "%s : %p\n", type,
 			(void *)PAGE(pages) + sizeof(t_header_page));
 		show_all_blocks(PAGE(pages)->block);
 		pages = pages->next;
