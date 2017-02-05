@@ -118,7 +118,7 @@ cmp_output("test4", "Bonjours\n")
 print("#####Test print_alloc_mem")
 com = "gcc"+ " -L../ " + " -Wall -Wno-unused-result -o " + bin_folder + "test5" + " " + "test5.c" + " -lft_malloc -I../includes"
 cmd.call(com.split())
-com = "./" + bin_folder + "test5"
+com = "./run.sh " + bin_folder + "test5"
 output = cmd_output_only(com.split())
 print(output)
 
