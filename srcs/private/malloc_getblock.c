@@ -63,7 +63,6 @@ t_lst	*malloc_getblock(size_t size)
 	t_lst	*page;
 	t_lst	*block;
 
-	THREAD_SAFE_ACTIVATE;
 	if ((block = get_freed_block(size, &page)))
 	{
 		;
@@ -78,6 +77,5 @@ t_lst	*malloc_getblock(size_t size)
 	}
 	split_block(page, block, size);
 	reserve_block(page, block, size);
-	THREAD_SAFE_DEACTIVATE;
 	return (block);
 }

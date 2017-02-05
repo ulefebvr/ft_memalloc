@@ -74,8 +74,9 @@ void	*internal_realloc(t_lst *block, size_t size)
 		&& (ptr = change_block_size(block, size)))
 	{
 		((t_header_block *)(ptr - sizeof(t_header_block)))->time = time(0);
+		THREAD_SAFE_DEACTIVATE;
 	}
-	else if ((ptr = malloc(size)))
+	else if (!THREAD_SAFE_DEACTIVATE && (ptr = malloc(size)))
 	{
 		ft_memcpy(ptr, (void *)BLOCK(block) + sizeof(t_header_block),
 			BLOCK(block)->size);
@@ -86,6 +87,5 @@ void	*internal_realloc(t_lst *block, size_t size)
 	{
 		ptr = (void *)BLOCK(block) + sizeof(t_header_block);
 	}
-	THREAD_SAFE_DEACTIVATE;
 	return (ptr);
 }
