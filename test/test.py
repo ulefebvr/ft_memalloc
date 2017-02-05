@@ -19,7 +19,7 @@ lib_inc = "../includes"
 # functions
 def page_reclaims(prog):
     # com = "./run.sh /usr/bin/time -l ./" + bin_folder + prog
-    com = "./run.sh ./timel ./" + bin_folder + prog
+    com = "./run.sh /usr/bin/time -l ./" + bin_folder + prog
     pipe = cmd.Popen(com.split(), stdout=cmd.PIPE, stderr=cmd.PIPE)
     output, errput = pipe.communicate()
     m = re.search('([0-9]+?)[ \t]+page[ \t]+reclaims', errput)
@@ -55,7 +55,8 @@ cmd.call(com.split())
 
 for f in test_files:
     output_file = f[:-2]
-    com = "gcc -o " + bin_folder + output_file + " " + f + " -L ../ -lft_malloc" + " -I " + lib_inc
+    com = "gcc -o " + bin_folder + output_file + " " + f + " -I " + lib_inc
+    print(com)
     cmd.call(com.split())
 
 #############################################################
@@ -115,7 +116,7 @@ cmp_output("test4", "Bonjours\n")
 # For this test to work, you need to have the libmalloc_darwin...
 # in the current directory.
 print("#####Test print_alloc_mem")
-com = "gcc"+ " -L../ " + " -Wall -Wno-unused-result -o " + bin_folder + "test5" + " " + "test5.c" + " -lft_malloc"
+com = "gcc"+ " -L../ " + " -Wall -Wno-unused-result -o " + bin_folder + "test5" + " " + "test5.c" + " -lft_malloc -I../includes"
 cmd.call(com.split())
 com = "./" + bin_folder + "test5"
 output = cmd_output_only(com.split())
