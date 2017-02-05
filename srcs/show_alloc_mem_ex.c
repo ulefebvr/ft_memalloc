@@ -14,15 +14,20 @@
 
 static void	show_all_blocks(t_lst *block)
 {
+	char *tmp_time;
+
 	while (block)
 	{
 		if (!(BLOCK(block)->is_free))
 		{
-			ft_fdprint(1, "%s %p - %p : %ld octets\n",
-				(char *)ctime(&BLOCK(block)->time),
+			tmp_time = ctime(&BLOCK(block)->time);
+			tmp_time[24] = 0;
+			ft_fdprint(1, "%s %p - %p : %d octets\n",
+				tmp_time,
 				(void *)BLOCK(block) + sizeof(t_header_block),
 				(void *)BLOCK(block) + BLOCK(block)->size
-				+ sizeof(t_header_block), BLOCK(block)->size);
+				+ sizeof(t_header_block), BLOCK(block)->size,
+				BLOCK(block)->size);
 		}
 		block = block->next;
 	}
