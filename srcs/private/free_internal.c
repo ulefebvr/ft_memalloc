@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_internal.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/05 19:52:36 by ulefebvr          #+#    #+#             */
+/*   Updated: 2017/02/05 19:52:36 by ulefebvr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "private_malloc.h"
 
 void		free_large_page(t_lst *block)
@@ -24,7 +36,7 @@ void		free_empty_page(t_lst *block)
 	t_lst *page;
 
 	page = BLOCK(block)->page;
-	if (page_empty(page) && (void *)PAGE(BLOCK(block)->page) 
+	if (page_empty(page) && (void *)PAGE(BLOCK(block)->page)
 		!= (void *)*get_type(BLOCK(block)->size))
 	{
 		if (!page->prev)

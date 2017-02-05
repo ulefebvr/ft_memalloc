@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   malloc_initialize.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/05 19:52:51 by ulefebvr          #+#    #+#             */
+/*   Updated: 2017/02/05 19:52:52 by ulefebvr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "private_malloc.h"
 
-int malloc_initialize(void)
+int	malloc_initialize(void)
 {
 	ft_bzero(&g_malloc, sizeof(t_malloc));
 	g_malloc.init = 1;

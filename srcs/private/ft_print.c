@@ -15,7 +15,7 @@
 #include <stdarg.h>
 #include <unistd.h>
 
-void print_adress(int base, unsigned long i, int fd)
+void	print_adress(int base, unsigned long i, int fd)
 {
 	if (i < (unsigned long)base)
 		write(fd, &HEX_STRING[i], 1);
@@ -52,7 +52,7 @@ void	ft_putstr_fd(char const *s, int fd)
 	}
 }
 
-void		run_print(int fd, const char *fmt, va_list list)
+void	run_print(int fd, const char *fmt, va_list list)
 {
 	while (*fmt)
 	{
@@ -71,7 +71,7 @@ void		run_print(int fd, const char *fmt, va_list list)
 	}
 }
 
-int			ft_fdprint(int fd, const char *fmt, ...)
+int		ft_fdprint(int fd, const char *fmt, ...)
 {
 	va_list		list;
 

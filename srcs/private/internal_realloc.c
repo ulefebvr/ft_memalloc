@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   internal_realloc.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/05 19:52:42 by ulefebvr          #+#    #+#             */
+/*   Updated: 2017/02/05 19:52:43 by ulefebvr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "malloc.h"
 #include "private_malloc.h"
 
@@ -10,7 +22,7 @@ void	add_block(t_lst *block, size_t size)
 		ft_memcpy((void *)BLOCK(block) + size,
 			BLOCK(block->next), sizeof(t_header_block));
 		block->next = (void *)BLOCK(block) + size;
-		BLOCK(block->next)->size = 
+		BLOCK(block->next)->size =
 			BLOCK(block)->size - size - sizeof(t_header_block);
 	}
 	else
@@ -39,7 +51,8 @@ void	*change_block_size(t_lst *block, size_t size)
 	}
 	else if (BLOCK(block)->size < size
 		&& block->next && BLOCK(block->next)->is_free
-		&& BLOCK(block)->size + BLOCK(block->next)->size - size > sizeof(t_header_block))
+		&& BLOCK(block)->size + BLOCK(block->next)->size - size >
+			sizeof(t_header_block))
 	{
 		BLOCK(block)->size += BLOCK(block->next)->size + sizeof(t_header_block);
 		PAGE(BLOCK(block)->page)->capacity += sizeof(t_header_block);
@@ -64,9 +77,10 @@ void	*internal_realloc(t_lst *block, size_t size)
 	}
 	else if ((ptr = malloc(size)))
 	{
-		ft_memcpy(ptr, (void *)BLOCK(block) + sizeof(t_header_block), BLOCK(block)->size);
+		ft_memcpy(ptr, (void *)BLOCK(block) + sizeof(t_header_block),
+			BLOCK(block)->size);
 		free((void *)BLOCK(block) + sizeof(t_header_block));
-		((t_header_block *)(ptr - sizeof(t_header_block)))->time = time(0);		
+		((t_header_block *)(ptr - sizeof(t_header_block)))->time = time(0);
 	}
 	else
 	{

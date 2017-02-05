@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   private_malloc.h                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/05 19:53:57 by ulefebvr          #+#    #+#             */
+/*   Updated: 2017/02/05 19:53:57 by ulefebvr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PRIVATE_MALLOC_H
 # define PRIVATE_MALLOC_H
 
@@ -69,29 +81,32 @@ pthread_mutex_t						g_malloc_lock;
 
 # define HEX_STRING					"0123456789ABCDEF"
 
-void			ft_bzero(void *s, size_t n);
-void			*ft_memcpy(void *dest, const void *src, size_t n);
-int				ft_fdprint(int fd, const char *fmt, ...);
+void								ft_bzero(void *s, size_t n);
+void								*ft_memcpy(
+										void *dest, const void *src, size_t n);
+int									ft_fdprint(int fd, const char *fmt, ...);
 
-int				malloc_initialize(void);
+int									malloc_initialize(void);
 
-t_lst			**get_type(size_t size);
-size_t			page_size(size_t size);
-size_t			block_size(size_t size);
+t_lst								**get_type(size_t size);
+size_t								page_size(size_t size);
+size_t								block_size(size_t size);
 
-t_lst			*split_block(t_lst *page, t_lst *block, size_t size);
-void			join_block(t_lst *b1, t_lst *b2);
-void			apply_buddy_check(t_lst *block);
+t_lst								*split_block(t_lst *page,
+										t_lst *block, size_t size);
+void								join_block(t_lst *b1, t_lst *b2);
+void								apply_buddy_check(t_lst *block);
 
-t_lst			*add_new_page(size_t size);
+t_lst								*add_new_page(size_t size);
 
-t_lst			*malloc_getblock(size_t size);
+t_lst								*malloc_getblock(size_t size);
 
-t_lst			*check_adress(void *ptr);
+t_lst								*check_adress(void *ptr);
 
-void			*internal_realloc(t_lst *block, size_t size);
+void								*internal_realloc(
+										t_lst *block, size_t size);
 
-void			free_large_page(t_lst *block);
-void			free_empty_page(t_lst *block);
+void								free_large_page(t_lst *block);
+void								free_empty_page(t_lst *block);
 
 #endif

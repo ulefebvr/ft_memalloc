@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   malloc_getblock.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ulefebvr <ulefebvr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/05 19:52:48 by ulefebvr          #+#    #+#             */
+/*   Updated: 2017/02/05 19:52:49 by ulefebvr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "private_malloc.h"
 
 t_lst	*get_freed_block(size_t size, t_lst **page)
@@ -62,7 +74,6 @@ t_lst	*malloc_getblock(size_t size)
 	}
 	else
 	{
-
 		return (0);
 	}
 	split_block(page, block, size);
