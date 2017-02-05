@@ -36,7 +36,7 @@ void	ft_putnbr_fd(int n, int fd)
 		ft_putnbr_fd(n % 10, fd);
 	}
 	else
-		write(fd, HEX_STRING + n, 1);
+		write(fd, &HEX_STRING[n], 1);
 }
 
 void	ft_putstr_fd(char const *s, int fd)
