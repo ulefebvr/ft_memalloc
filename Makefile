@@ -41,6 +41,7 @@ all: $(TARGET_EXEC) $(OBJS)
 
 $(TARGET_EXEC): $(OBJS)
 	$(CC) -shared -o $@ $(OBJS)
+	$(RM) libft_malloc.so
 	ln -s $(TARGET_EXEC) libft_malloc.so
 
 # assembly
