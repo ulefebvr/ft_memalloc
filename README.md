@@ -9,7 +9,7 @@ Compile the library
 
 Use `make` command to compile the library. To overload the system memory-allocator you have to set these environment variables.
 
-```
+```shell
 if [ "$(uname)" == "Linux" ]; then
 	export LD_LIBRARY_PATH=$(dirname $(readlink -f path_to_depo/libft_malloc.so))/
 else
