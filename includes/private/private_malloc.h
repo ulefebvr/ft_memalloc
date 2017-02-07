@@ -56,15 +56,21 @@ typedef struct						s_malloc
 t_malloc							g_malloc;
 pthread_mutex_t						g_malloc_lock;
 
+# define S_HBLOCK					(sizeof(t_header_block))
+# define S_HPAGE					(sizeof(t_header_page))
+
 # define PAGE_SIZE					((size_t)sysconf(_SC_PAGESIZE))
 # define PS							PAGE_SIZE
 # define PAGE_SIZE_MULTIPLE(x)		((((x) + PS - 1) / PS) * PS)
+# define PSM(x)						PAGE_SIZE_MULTIPLE(x)
 
-# define TINY_PAGE_SIZE				(2 * PAGE_SIZE)
-# define TINY_MAX_ALLOC				128
+# define TINY_MAX_ALLOC				(128)
+# define TINY_PAGE_SIZE				(PSM((128 + S_HBLOCK) * 100 + S_HPAGE))
 
-# define SMALL_PAGE_SIZE			(16* PAGE_SIZE)
-# define SMALL_MAX_ALLOC			1024
+# define SMALL_MAX_ALLOC			(1024)
+# define SMALL_PAGE_SIZE			(PSM((128 + S_HBLOCK) * 100 + S_HPAGE))
+
+# define LARGE_PAGE_SIZE(x)			(PSM(x + S_HBLOCK + S_HPAGE))
 
 # define MMAP_PROT					(PROT_READ | PROT_WRITE)
 # define MMAP_FLAG					(MAP_PRIVATE | MAP_ANON)
@@ -76,8 +82,18 @@ pthread_mutex_t						g_malloc_lock;
 # define BLOCK(x)					(CONTAINEROF(x, t_header_block, list))
 # define PAGE(x)					(CONTAINEROF(x, t_header_page, list))
 
-# define THREAD_SAFE_ACTIVATE		pthread_mutex_lock(&g_malloc_lock)
-# define THREAD_SAFE_DEACTIVATE		pthread_mutex_unlock(&g_malloc_lock)
+// # define THREAD_SAFE_ACTIVATE		pthread_mutex_lock(&g_malloc_lock)
+# define THREAD_SAFE_ACTIVATE		(0)
+// # define THREAD_SAFE_DEACTIVATE		pthread_mutex_unlock(&g_malloc_lock)
+# define THREAD_SAFE_DEACTIVATE		(0)
+
+#include <stdio.h>
+#include <string.h>
+# define debug(...) \
+			({ \
+				ft_fdprint(2, "%s(%d): ", __FUNCTION__, __LINE__); \
+				ft_fdprint(2, __VA_ARGS__); \
+			})
 
 # define HEX_STRING					"0123456789ABCDEF"
 

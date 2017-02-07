@@ -26,10 +26,8 @@ void	print_adress(int base, unsigned long i, int fd)
 	}
 }
 
-void	ft_putnbr_fd(int n, int fd)
+void	ft_putnbr_fd(size_t n, int fd)
 {
-	if (n < 0 && write(fd, "-", 1))
-		n = (~n) + 1;
 	if (n > 9)
 	{
 		ft_putnbr_fd(n / 10, fd);
@@ -61,7 +59,7 @@ void	run_print(int fd, const char *fmt, va_list list)
 			if (*fmt == 's')
 				ft_putstr_fd(va_arg(list, char *), fd);
 			else if (*fmt == 'd')
-				ft_putnbr_fd(va_arg(list, int), fd);
+				ft_putnbr_fd(va_arg(list, size_t), fd);
 			else if (*fmt == 'p')
 				print_adress(16, va_arg(list, unsigned long), fd);
 			fmt++;

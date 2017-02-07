@@ -15,19 +15,20 @@
 
 void	add_block(t_lst *block, size_t size)
 {
+debug("here\n");
 	t_header_block	*new;
 
 	if (block->next && BLOCK(block->next)->is_free)
 	{
-		ft_memcpy((void *)BLOCK(block) + size,
+		ft_memcpy((void *)((char *)BLOCK(block) + size),
 			BLOCK(block->next), sizeof(t_header_block));
-		block->next = (void *)BLOCK(block) + size;
+		block->next = (void *)((char *)BLOCK(block) + size);
 		BLOCK(block->next)->size =
 			BLOCK(block)->size - size - sizeof(t_header_block);
 	}
 	else
 	{
-		new = (void *)BLOCK(block) + size;
+		new = (void *)((char *)BLOCK(block) + size);
 		new->size = BLOCK(block)->size - sizeof(t_header_block);
 		PAGE(BLOCK(block)->page)->capacity -= sizeof(t_header_block);
 		new->is_free = 1;
@@ -40,14 +41,15 @@ void	add_block(t_lst *block, size_t size)
 
 void	*change_block_size(t_lst *block, size_t size)
 {
+debug("here\n");
 	if (BLOCK(block)->size == size)
-		return ((void *)BLOCK(block) + sizeof(t_header_block));
+		return ((void *)((char *)BLOCK(block) + sizeof(t_header_block)));
 	else if (BLOCK(block)->size - size > sizeof(t_header_block))
 	{
 		add_block(block, size);
 		BLOCK(block)->size = size;
 		PAGE(BLOCK(block)->page)->capacity += size;
-		return ((void *)BLOCK(block) + sizeof(t_header_block));
+		return ((void *)((char *)BLOCK(block) + sizeof(t_header_block)));
 	}
 	else if (BLOCK(block)->size < size
 		&& block->next && BLOCK(block->next)->is_free
@@ -59,13 +61,14 @@ void	*change_block_size(t_lst *block, size_t size)
 		if ((block->next = block->next->next))
 			block->next->prev = block;
 		split_block(BLOCK(block)->page, block, size);
-		return ((void *)BLOCK(block) + sizeof(t_header_block));
+		return ((void *)((char *)BLOCK(block) + sizeof(t_header_block)));
 	}
 	return (NULL);
 }
 
 void	*internal_realloc(t_lst *block, size_t size)
 {
+debug("here\n");
 	void *ptr;
 
 	ptr = 0;
@@ -78,14 +81,25 @@ void	*internal_realloc(t_lst *block, size_t size)
 	}
 	else if (!THREAD_SAFE_DEACTIVATE && (ptr = malloc(size)))
 	{
-		ft_memcpy(ptr, (void *)BLOCK(block) + sizeof(t_header_block),
+		ft_memcpy(ptr, (void *)((char *)BLOCK(block) + sizeof(t_header_block)),
 			BLOCK(block)->size);
-		free((void *)BLOCK(block) + sizeof(t_header_block));
+		free((void *)((char *)BLOCK(block) + sizeof(t_header_block)));
 		((t_header_block *)(ptr - sizeof(t_header_block)))->time = time(0);
 	}
 	else
 	{
 		ptr = (void *)BLOCK(block) + sizeof(t_header_block);
 	}
+	ft_fdprint(2,
+		"size       : %d\n"
+		"block      : %p\n"
+		"block size : %p\n"
+		"page       : %p\n"
+		"page size  : %d\n"
+		"pointer    : %p\n\n",
+		size, ptr - sizeof(t_header_block), (((t_header_block *)(ptr - sizeof(t_header_block)))->size),
+		(void *)PAGE(((t_header_block *)(ptr - sizeof(t_header_block)))->page),
+		PAGE(((t_header_block *)(ptr - sizeof(t_header_block)))->page)->size,
+		ptr);
 	return (ptr);
 }

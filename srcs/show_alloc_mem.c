@@ -14,6 +14,7 @@
 
 static void	show_all_blocks(t_lst *block)
 {
+debug("here\n");
 	while (block)
 	{
 		if (!(BLOCK(block)->is_free))
@@ -29,6 +30,7 @@ static void	show_all_blocks(t_lst *block)
 
 static void	show_all_pages(t_lst *pages, char *type)
 {
+debug("here\n");
 	(void)type;
 	while (pages)
 	{
@@ -41,6 +43,7 @@ static void	show_all_pages(t_lst *pages, char *type)
 
 void		show_alloc_mem(void)
 {
+debug("here\n");
 	show_all_pages(g_malloc.tiny_list, "TINY");
 	show_all_pages(g_malloc.small_list, "SMALL");
 	show_all_pages(g_malloc.large_list, "LARGE");

@@ -14,6 +14,7 @@
 
 t_lst	*get_freed_block(size_t size, t_lst **page)
 {
+debug("here\n");
 	t_lst *block;
 
 	*page = *get_type(size);
@@ -36,6 +37,7 @@ t_lst	*get_freed_block(size_t size, t_lst **page)
 
 void	reserve_block(t_lst *page, t_lst *block, size_t size)
 {
+debug("here\n");
 	BLOCK(block)->size = (size);
 	BLOCK(block)->is_free = 0;
 	BLOCK(block)->time = time(0);
@@ -44,6 +46,7 @@ void	reserve_block(t_lst *page, t_lst *block, size_t size)
 
 t_lst	*check_page(size_t size)
 {
+debug("here\n");
 	t_lst	*page;
 	size_t	block_size;
 
@@ -60,6 +63,7 @@ t_lst	*check_page(size_t size)
 
 t_lst	*malloc_getblock(size_t size)
 {
+debug("here\n");
 	t_lst	*page;
 	t_lst	*block;
 

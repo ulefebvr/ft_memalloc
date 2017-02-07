@@ -14,11 +14,12 @@
 
 t_lst	*split_block(t_lst *page, t_lst *block, size_t size)
 {
+debug("here\n");
 	t_header_block *next;
 
 	if (BLOCK(block)->size >= ((size) + sizeof(t_header_block)))
 	{
-		next = (void *)BLOCK(block) + sizeof(t_header_block) + size;
+		next = (void *)((char *)BLOCK(block) + sizeof(t_header_block) + size);
 		ft_bzero(next, sizeof(t_header_block));
 		block->next = &next->list;
 		next->list.prev = block;
@@ -32,6 +33,7 @@ t_lst	*split_block(t_lst *page, t_lst *block, size_t size)
 
 void	join_block(t_lst *b1, t_lst *b2)
 {
+debug("here\n");
 	BLOCK(b1)->size = BLOCK(b2)->size + sizeof(t_header_block);
 	b1->next = b2->next;
 	if (b2->next)

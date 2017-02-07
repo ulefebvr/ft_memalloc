@@ -14,6 +14,7 @@
 
 t_lst	**get_type(size_t size)
 {
+debug("here\n");
 	if (size <= TINY_MAX_ALLOC)
 		return (&g_malloc.tiny_list);
 	if (size <= SMALL_MAX_ALLOC)
@@ -23,15 +24,17 @@ t_lst	**get_type(size_t size)
 
 size_t	page_size(size_t size)
 {
+debug("here\n");
 	if (size <= TINY_MAX_ALLOC)
 		return (TINY_PAGE_SIZE);
 	if (size <= SMALL_MAX_ALLOC)
 		return (SMALL_PAGE_SIZE);
-	return (size);
+	return (LARGE_PAGE_SIZE(size));
 }
 
 size_t	block_size(size_t size)
 {
+debug("here\n");
 	if (size <= TINY_MAX_ALLOC)
 		return (TINY_MAX_ALLOC);
 	if (size <= SMALL_MAX_ALLOC)

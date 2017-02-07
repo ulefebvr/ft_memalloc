@@ -14,25 +14,39 @@
 
 t_lst	*found_block(t_lst *page, void *ptr)
 {
+debug("%s\n", page == 0 ? "no page" : "page exist");
 	t_lst *block;
 
 	block = page == 0 ? 0 : PAGE(page)->block;
 	while (block)
 	{
-		if ((void *)BLOCK(block) + sizeof(t_header_block) == ptr
-			&& !BLOCK(block)->is_free)
-			return (block);
+		debug("Block exist: [%d]\n", block != 0);
+		if ((void *)((char *)BLOCK(block) + sizeof(t_header_block)) == ptr)
+		{
+			debug("IN 1: [%d]\n", block != 0);
+			if (!BLOCK(block)->is_free)
+			{
+				debug("IN 2: [%d]\n", block != 0);
+				// ft_fdprint(2, "%p :::: %p\n", (void *)BLOCK(block) + sizeof(t_header_block), ptr);
+				return (block);
+			}
+		}
+		debug("see next block: ");
 		block = block->next;
+		debug("done\n");
 	}
+	debug("fail\n");
+	// ft_fdprint(2, "[[%d]]\n", block == 0 ? 0 : 1);
 	return (0);
 }
 
 t_lst	*found_page(t_lst *pages, void *ptr)
 {
+debug("here\n");
 	while (pages)
 	{
-		if ((void *)PAGE(pages) + sizeof(t_header_page) < ptr
-			&& ptr < (void *)PAGE(pages) + PAGE(pages)->size)
+		if ((void *)((char *)PAGE(pages) + sizeof(t_header_page)) < ptr
+			&& ptr < (void *)((char *)PAGE(pages) + PAGE(pages)->size))
 			return (pages);
 		pages = pages->next;
 	}
@@ -41,6 +55,7 @@ t_lst	*found_page(t_lst *pages, void *ptr)
 
 t_lst	*check_adress(void *ptr)
 {
+debug("here\n");
 	t_lst *block;
 
 	block = 0;

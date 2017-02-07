@@ -14,9 +14,10 @@
 
 t_lst	*create_new_block(t_lst *page)
 {
+debug("here\n");
 	t_header_block *block;
 
-	block = (void *)(PAGE(page)) + sizeof(t_header_page);
+	block = (void *)((char *)PAGE(page) + sizeof(t_header_page));
 	block->size = PAGE(page)->capacity;
 	block->is_free = 1;
 	block->page = page;
@@ -27,12 +28,17 @@ t_lst	*create_new_block(t_lst *page)
 
 t_lst	*create_new_page(size_t size)
 {
+debug("here\n");
 	t_header_page	*page;
 	size_t			page_lenght;
 
 	page_lenght = page_size(size);
 	if (MAP_FAILED == (page = (t_header_page *)MMAP(page_lenght)))
+	{
+		ft_fdprint(2, "MMAP FAILED\n");
 		return (0);
+	}
+	// ft_fdprint(2, "MMAP %p %d\n", (void *)page, page_lenght);
 	page->size = page_lenght;
 	page->capacity = page_lenght - sizeof(t_header_page);
 	page->block = create_new_block(&page->list);
@@ -42,6 +48,7 @@ t_lst	*create_new_page(size_t size)
 
 void	lst_add_node(t_lst *head, t_lst *node)
 {
+debug("here\n");
 	if (head && node)
 	{
 		while (head->next)
@@ -53,6 +60,7 @@ void	lst_add_node(t_lst *head, t_lst *node)
 
 t_lst	*add_new_page(size_t size)
 {
+debug("here\n");
 	t_lst	*new_page;
 	t_lst	**head;
 
