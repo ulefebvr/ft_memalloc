@@ -34,6 +34,9 @@ void	show_all_pages(t_header_page *pages, char *typename)
 
 void	show_alloc_mem(void)
 {
+	if (!check_init())
+		return ;
+	pthread_mutex_lock(&g_malloc_lock);
 	show_all_pages(g_malloc.tiny_list, "TINY");
 	show_all_pages(g_malloc.small_list, "SMALL");
 	if (g_malloc.large_list)
@@ -41,4 +44,5 @@ void	show_alloc_mem(void)
 		ft_fdprint(2, "LARGE\n");
 		show_all_blocks(g_malloc.large_list);
 	}
+	pthread_mutex_unlock(&g_malloc_lock);
 }
