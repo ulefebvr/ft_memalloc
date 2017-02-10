@@ -22,35 +22,42 @@
 
 typedef unsigned long long int		t_ulli;
 
-typedef struct						s_lst
+typedef enum						e_stype
 {
-	struct s_lst					*next;
-	struct s_lst					*prev;
-}									t_lst;
+	TINY = 128, SMALL = 1024, LARGE
+}									t_stype;
 
-typedef struct						s_header_page
-{
-	size_t							size;
-	size_t							capacity;
-	t_lst							list;
-	t_lst							*block;
-}									t_header_page;
+# define CAPA						100
 
 typedef struct						s_header_block
 {
 	size_t							size;
-	t_lst							list;
-	int								is_free;
-	t_lst							*page;
+	size_t							capacity;
 	time_t							time;
+	void							*ptr;
+	struct s_header_block			*next;
 }									t_header_block;
+
+typedef t_header_block				t_hb;
+
+typedef struct						s_header_page
+{
+	int								capacity;
+	t_stype							type;
+	t_header_block					storage[CAPA];
+	void							*ptr;
+	t_header_block					*free;
+	t_header_block					*reserved;
+	struct s_header_page			*next;
+}									t_header_page;
+
+typedef t_header_page				t_hp;
 
 typedef struct						s_malloc
 {
-	int								init;
-	t_lst							*tiny_list;
-	t_lst							*small_list;
-	t_lst							*large_list;
+	t_header_page					*tiny_list;
+	t_header_page					*small_list;
+	t_header_block					*large_list;
 }									t_malloc;
 
 t_malloc							g_malloc;
@@ -59,41 +66,18 @@ pthread_mutex_t						g_malloc_lock;
 # define S_HBLOCK					(sizeof(t_header_block))
 # define S_HPAGE					(sizeof(t_header_page))
 
-# define PAGE_SIZE					((size_t)sysconf(_SC_PAGESIZE))
+// # define PAGE_SIZE					((size_t)sysconf(_SC_PAGESIZE))
+# define PAGE_SIZE					(getpagesize())
 # define PS							PAGE_SIZE
 # define PAGE_SIZE_MULTIPLE(x)		((((x) + PS - 1) / PS) * PS)
 # define PSM(x)						PAGE_SIZE_MULTIPLE(x)
 
-# define TINY_MAX_ALLOC				(128)
-# define TINY_PAGE_SIZE				(PSM((128 + S_HBLOCK) * 100 + S_HPAGE))
-
-# define SMALL_MAX_ALLOC			(1024)
-# define SMALL_PAGE_SIZE			(PSM((128 + S_HBLOCK) * 100 + S_HPAGE))
-
-# define LARGE_PAGE_SIZE(x)			(PSM(x + S_HBLOCK + S_HPAGE))
+# define TINY_MAX_ALLOC				128
+# define SMALL_MAX_ALLOC			1024
 
 # define MMAP_PROT					(PROT_READ | PROT_WRITE)
 # define MMAP_FLAG					(MAP_PRIVATE | MAP_ANON)
 # define MMAP(size)					mmap(0, size, MMAP_PROT, MMAP_FLAG, -1, 0)
-
-# define OFFSETOF(TYPE, MEMBER)		((size_t) &((TYPE *)0)->MEMBER)
-# define CONTAINEROF(ptr, t, m)		((t *)((char *)(ptr) - OFFSETOF(t, m)))
-
-# define BLOCK(x)					(CONTAINEROF(x, t_header_block, list))
-# define PAGE(x)					(CONTAINEROF(x, t_header_page, list))
-
-// # define THREAD_SAFE_ACTIVATE		pthread_mutex_lock(&g_malloc_lock)
-# define THREAD_SAFE_ACTIVATE		(0)
-// # define THREAD_SAFE_DEACTIVATE		pthread_mutex_unlock(&g_malloc_lock)
-# define THREAD_SAFE_DEACTIVATE		(0)
-
-#include <stdio.h>
-#include <string.h>
-# define debug(...) \
-			({ \
-				ft_fdprint(2, "%s(%d): ", __FUNCTION__, __LINE__); \
-				ft_fdprint(2, __VA_ARGS__); \
-			})
 
 # define HEX_STRING					"0123456789ABCDEF"
 
@@ -102,27 +86,13 @@ void								*ft_memcpy(
 										void *dest, const void *src, size_t n);
 int									ft_fdprint(int fd, const char *fmt, ...);
 
-int									malloc_initialize(void);
+t_stype								get_type(size_t size);
+t_header_page						*check_ptr_page(void *ptr);
+t_header_block						*check_ptr_block(t_header_page *a, void *b);
 
-t_lst								**get_type(size_t size);
-size_t								page_size(size_t size);
-size_t								block_size(size_t size);
-
-t_lst								*split_block(t_lst *page,
-										t_lst *block, size_t size);
-void								join_block(t_lst *b1, t_lst *b2);
-void								apply_buddy_check(t_lst *block);
-
-t_lst								*add_new_page(size_t size);
-
-t_lst								*malloc_getblock(size_t size);
-
-t_lst								*check_adress(void *ptr);
-
+void								internal_free(t_header_page *a, t_hb *b);
+void								*internal_malloc(size_t size);
 void								*internal_realloc(
-										t_lst *block, size_t size);
-
-void								free_large_page(t_lst *block);
-void								free_empty_page(t_lst *block);
+										t_hp *a, t_hb *b, void *c, size_t d);
 
 #endif

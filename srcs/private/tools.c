@@ -12,10 +12,8 @@
 
 #include <unistd.h>
 
-#include "private_malloc.h"
 void	ft_bzero(void *s, size_t n)
 {
-debug("here\n");
 	unsigned int counter;
 
 	counter = 0;
@@ -28,7 +26,6 @@ debug("here\n");
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-debug("here\n");
 	unsigned int counter;
 
 	counter = 0;
