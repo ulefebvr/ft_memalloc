@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "malloc.h"
 #include "private_malloc.h"
 
 void			*internal_realloc(
@@ -23,10 +22,10 @@ void			*internal_realloc(
 		block->size = size;
 		return (ptr);
 	}
-	else if ((tmp = malloc(size)))
+	else if ((tmp = malloc_without_thread(size)))
 	{
 		ft_memcpy(tmp, block->ptr, block->size < size ? block->size : size);
-		free(block->ptr);
+		free_without_thread(block->ptr);
 		return (tmp);
 	}
 	return (ptr);

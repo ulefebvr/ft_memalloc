@@ -10,25 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "malloc.h"
 #include "private_malloc.h"
 
-void		*reallocf(void *ptr, size_t size)
+void		*reallocf_without_thread(void *ptr, size_t size)
 {
 	void			*ret;
 	t_header_block	*block;
 
 	if (ptr == 0)
-		return (malloc(size));
+		return (malloc_without_thread(size));
 	if (0 == (block = check_ptr_block(check_ptr_page(ptr), ptr)))
 		return (0);
 	else if (size == 0)
 	{
-		free(ptr);
+		free_without_thread(ptr);
 		return (0);
 	}
-	ret = malloc(size);
+	ret = malloc_without_thread(size);
 	ft_memcpy(ret, block->ptr, block->size < size ? block->size : size);
-	free(ptr);
+	free_without_thread(ptr);
+	return (ret);
+}
+
+void		*reallocf(void *ptr, size_t size)
+{
+	void	*ret;
+
+	pthread_mutex_lock(&g_malloc_lock);
+	ret = reallocf_without_thread(ptr, size);
+	pthread_mutex_unlock(&g_malloc_lock);
 	return (ret);
 }

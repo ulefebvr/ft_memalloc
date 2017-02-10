@@ -55,6 +55,7 @@ typedef t_header_page				t_hp;
 
 typedef struct						s_malloc
 {
+	int								init;
 	t_header_page					*tiny_list;
 	t_header_page					*small_list;
 	t_header_block					*large_list;
@@ -88,6 +89,12 @@ int									ft_fdprint(int fd, const char *fmt, ...);
 t_stype								get_type(size_t size);
 t_header_page						*check_ptr_page(void *ptr);
 t_header_block						*check_ptr_block(t_header_page *a, void *b);
+
+void								*reallocf_without_thread(void *a, size_t b);
+void								*calloc_without_thread(size_t a, size_t b);
+void								free_without_thread(void *ptr);
+void								*malloc_without_thread(size_t size);
+void								*realloc_without_thread(void *a, size_t b);
 
 void								internal_free(t_header_page *a, t_hb *b);
 void								*internal_malloc(size_t size);

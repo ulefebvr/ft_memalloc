@@ -10,14 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "malloc.h"
 #include "private_malloc.h"
+
+void	*calloc_without_thread(size_t nmemb, size_t size)
+{
+	void	*ptr;
+
+	ptr = malloc_without_thread((nmemb + 1) * size);
+	ft_bzero(ptr, (nmemb + 1) * size);
+	return (ptr);
+}
 
 void	*calloc(size_t nmemb, size_t size)
 {
 	void	*ptr;
 
-	ptr = malloc((nmemb + 1) * size);
-	ft_bzero(ptr, (nmemb + 1) * size);
+	ptr = calloc_without_thread(nmemb, size);
 	return (ptr);
 }

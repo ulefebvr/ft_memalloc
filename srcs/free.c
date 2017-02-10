@@ -12,14 +12,21 @@
 
 #include "private_malloc.h"
 
-void		free(void *ptr)
+void		free_without_thread(void *ptr)
 {
 	t_header_page	*page;
 	t_header_block	*block;
 
-	page = check_ptr_page(ptr);
-	block = check_ptr_block(page, ptr);
-	if (ptr == 0 || !block)
+	if (ptr == 0)
 		return ;
-	internal_free(page, block);
+	page = check_ptr_page(ptr);
+	if ((block = check_ptr_block(page, ptr)))
+		internal_free(page, block);
+}
+
+void		free(void *ptr)
+{
+	pthread_mutex_lock(&g_malloc_lock);
+	free_without_thread(ptr);
+	pthread_mutex_unlock(&g_malloc_lock);
 }
