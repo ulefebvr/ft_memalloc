@@ -23,7 +23,7 @@ static void		free_pages(t_header_page *pages)
 static void		free_large_blocks(t_header_block *blocks)
 {
 	if (blocks->next)
-		free_large_blocks(block->next);
+		free_large_blocks(blocks->next);
 	munmap((void *)blocks, blocks->capacity);
 }
 
@@ -32,5 +32,5 @@ void			empty_garbage(void)
 	free_pages(g_malloc.tiny_list);
 	free_pages(g_malloc.small_list);
 	free_large_blocks(g_malloc.large_list);
-	ft_bzero(g_malloc, sizeof(t_malloc));
+	ft_bzero(&g_malloc, sizeof(t_malloc));
 }
