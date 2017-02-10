@@ -112,13 +112,13 @@ print("#####Test errors")
 cmp_output("test4", "Bonjours\n")
 
 #############################################################
-# show_alloc_mem
-# For this test to work, you need to have the libmalloc_darwin...
-# in the current directory.
-# print("#####Test print_alloc_mem")
-# com = "gcc"+ " -L../ " + " -Wall -Wno-unused-result -o " + bin_folder + "test5" + " " + "test5.c" + " -lft_malloc -I../includes"
-# cmd.call(com.split())
-# com = "./run.sh " + bin_folder + "test5"
-# output = cmd_output_only(com.split())
-# print(output)
+show_alloc_mem
+For this test to work, you need to have the libmalloc_darwin...
+in the current directory.
+print("#####Test print_alloc_mem")
+com = "gcc"+ " -L../ " + " -Wall -Wno-unused-result -o " + bin_folder + "test5" + " " + "test5.c" + " -lft_malloc -I../includes"
+cmd.call(com.split())
+com = "./run.sh " + bin_folder + "test5"
+output = cmd_output_only(com.split())
+print(output)
 

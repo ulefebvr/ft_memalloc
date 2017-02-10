@@ -70,11 +70,9 @@ void	*reallocf(void *ptr, size_t size);
 void	free(void *ptr);
 
 /*
-** The show_alloc_mem() and show_alloc_mem_ex() show the status of mapped
-** memory.
+** The show_alloc_mem() show the status of mapped memory.
 */
 
 void	show_alloc_mem(void);
-void	show_alloc_mem_ex(void);
 
 #endif

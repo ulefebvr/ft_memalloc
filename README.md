@@ -36,9 +36,8 @@ void	*realloc(void *ptr, size_t size);
 void	*reallocf(void *ptr, size_t size);
 
 void	show_alloc_mem(void);
-void	show_alloc_mem_ex(void);
 ```
-`show_alloc_mem` and `show_alloc_mem_ex` show the allocated memory status.
+`show_alloc_mem` show the allocated memory status.
 
 ----------
 

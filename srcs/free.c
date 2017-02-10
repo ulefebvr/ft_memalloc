@@ -27,7 +27,7 @@ void		free_without_thread(void *ptr)
 void		free(void *ptr)
 {
 	if (!check_init())
-		return (0);
+		return ;
 	pthread_mutex_lock(&g_malloc_lock);
 	free_without_thread(ptr);
 	pthread_mutex_unlock(&g_malloc_lock);
