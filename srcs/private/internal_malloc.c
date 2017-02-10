@@ -35,6 +35,7 @@ static t_header_page	*create_new_page(t_stype type)
 	ft_bzero((void *)page, S_HPAGE);
 	page->ptr = ptr;
 	page->capacity = CAPA;
+	page->type = type;
 	while (++i < CAPA)
 	{
 		page->storage[i].next = (i + 1 < CAPA) ? &(page->storage[i + 1]) : 0;
@@ -70,6 +71,7 @@ static void				*create_large_block(size_t size)
 	block->next = g_malloc.large_list;
 	g_malloc.large_list = block;
 	block->ptr = (char *)ptr + S_HBLOCK;
+	block->size = size;
 	return (block->ptr);
 }
 

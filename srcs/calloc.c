@@ -15,5 +15,9 @@
 
 void	*calloc(size_t nmemb, size_t size)
 {
-	return (malloc(nmemb * size));
+	void	*ptr;
+
+	ptr = malloc((nmemb + 1) * size);
+	ft_bzero(ptr, (nmemb + 1) * size);
+	return (ptr);
 }

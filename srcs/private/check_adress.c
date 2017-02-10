@@ -37,7 +37,7 @@ t_header_block			*check_ptr_block(t_header_page *page, void *ptr)
 {
 	t_header_block		*block;
 
-	block = (!page) ? g_malloc.large_list : page->reserved;
+	block = (page == 0) ? g_malloc.large_list : page->reserved;
 	while (block && block->ptr != ptr)
 		block = block->next;
 	return (block);

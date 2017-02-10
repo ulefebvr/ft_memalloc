@@ -17,12 +17,9 @@ void		free(void *ptr)
 	t_header_page	*page;
 	t_header_block	*block;
 
-	page = 0;
-	block = 0;
-	if (ptr == 0 || (!(page = check_ptr_page(ptr))
-		&& !(block = check_ptr_block(page, ptr))))
-		{
+	page = check_ptr_page(ptr);
+	block = check_ptr_block(page, ptr);
+	if (ptr == 0 || !block)
 		return ;
-		}
 	internal_free(page, block);
 }
