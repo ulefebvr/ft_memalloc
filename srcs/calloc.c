@@ -25,6 +25,10 @@ void	*calloc(size_t nmemb, size_t size)
 {
 	void	*ptr;
 
+	if (!check_init())
+		return (0);
+	pthread_mutex_lock(&g_malloc_lock);
 	ptr = calloc_without_thread(nmemb, size);
+	pthread_mutex_unlock(&g_malloc_lock);
 	return (ptr);
 }

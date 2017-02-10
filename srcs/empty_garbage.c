@@ -29,8 +29,11 @@ static void		free_large_blocks(t_header_block *blocks)
 
 void			empty_garbage(void)
 {
+	pthread_mutex_lock(&g_malloc_lock);
 	free_pages(g_malloc.tiny_list);
 	free_pages(g_malloc.small_list);
 	free_large_blocks(g_malloc.large_list);
 	ft_bzero(&g_malloc, sizeof(t_malloc));
+	pthread_mutex_unlock(&g_malloc_lock);
+	pthread_mutex_destroy(&g_malloc_lock);
 }

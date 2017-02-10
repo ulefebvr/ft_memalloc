@@ -81,10 +81,13 @@ pthread_mutex_t						g_malloc_lock;
 
 # define HEX_STRING					"0123456789ABCDEF"
 
+# define HIDDEN						(__attribute__((visibility("hidden"))))
+
 void								ft_bzero(void *s, size_t n);
 void								*ft_memcpy(
 										void *dest, const void *src, size_t n);
 int									ft_fdprint(int fd, const char *fmt, ...);
+int									check_init(void);
 
 t_stype								get_type(size_t size);
 t_header_page						*check_ptr_page(void *ptr);

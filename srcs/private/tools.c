@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "private_malloc.h"
+
 #include <unistd.h>
 
 void	ft_bzero(void *s, size_t n)
@@ -35,4 +37,15 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 		counter++;
 	}
 	return (dest);
+}
+
+int		check_init(void)
+{
+	if (!g_malloc.init)
+	{
+		if (pthread_mutex_init(&g_malloc_lock, 0))
+			return (0);
+		g_malloc.init = 1;
+	}
+	return (1);
 }

@@ -33,6 +33,8 @@ void		*realloc(void *ptr, size_t size)
 {
 	void		*ret;
 
+	if (!check_init())
+		return (0);
 	pthread_mutex_lock(&g_malloc_lock);
 	ret = realloc_without_thread(ptr, size);
 	pthread_mutex_unlock(&g_malloc_lock);
