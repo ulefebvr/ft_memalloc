@@ -66,7 +66,6 @@ pthread_mutex_t						g_malloc_lock;
 # define S_HBLOCK					(sizeof(t_header_block))
 # define S_HPAGE					(sizeof(t_header_page))
 
-// # define PAGE_SIZE					((size_t)sysconf(_SC_PAGESIZE))
 # define PAGE_SIZE					(getpagesize())
 # define PS							PAGE_SIZE
 # define PAGE_SIZE_MULTIPLE(x)		((((x) + PS - 1) / PS) * PS)
