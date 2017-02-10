@@ -30,8 +30,3 @@ void		*realloc(void *ptr, size_t size)
 	}
 	return (internal_realloc(page, block, ptr, size));
 }
-
-void		*reallocf(void *ptr, size_t size)
-{
-	return (realloc(ptr, size));
-}

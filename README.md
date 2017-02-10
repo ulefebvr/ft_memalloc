@@ -25,14 +25,15 @@ Library description
 -------------
 
 - This memory allocator use the First-Fit method.
-- Defragmentation is implemented.
 - Minimal overhead.
 
 The library includes the following functions:
 ```c
 void	free(void *ptr);
 void	*malloc(size_t size);
+void	*calloc(size_t count, size_t size);
 void	*realloc(void *ptr, size_t size);
+void	*reallocf(void *ptr, size_t size);
 
 void	show_alloc_mem(void);
 void	show_alloc_mem_ex(void);
@@ -48,9 +49,9 @@ You can use the `test/test.py` to test the library.
 $> ./test.py
 
 #####Test malloc
-Page reclaims for test0 (NO MALLOC, initial PR):     246
-Page reclaims for test1 (WITH MALLOC, PR Full Load): 512
-Page reclaims for test2:                             244
+Page reclaims for test0 (NO MALLOC, initial PR):     251
+Page reclaims for test1 (WITH MALLOC, PR Full Load): 517
+Page reclaims for test2:                             251
 
 For test1 (minus test0 for compensation) the PR is:  266 --> Score (out of 5):
 
@@ -58,9 +59,9 @@ For test1 (minus test0 for compensation) the PR is:  266 --> Score (out of 5):
 entre 255 et 272 pages, le malloc fonctionne et l'overhead est raisonnable
 
 #####Test free
-Page reclaims for test0 (NO MALLOC, initial PR):     246
-Page reclaims for test2:                             244
-delta PR between test2 and test0:                    -2
+Page reclaims for test0 (NO MALLOC, initial PR):     251
+Page reclaims for test2:                             251
+delta PR between test2 and test0:                    0
 Max 3 page reclaim more than test0. The free is working as expected !
 
 #####Test realloc
