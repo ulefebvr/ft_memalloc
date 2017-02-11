@@ -158,6 +158,6 @@ print("#####Test `ls -Rla ~` command")
 cmp_output_command("ls -Rla ~")
 
 #############################################################
-# run `ls` command with the malloc library
+# run `grep` command with the malloc library
 print("#####Test `grep malloc *` command")
 cmp_output_command("grep malloc " + string.join(glob.glob('*')))
