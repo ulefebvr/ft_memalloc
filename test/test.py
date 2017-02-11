@@ -67,7 +67,6 @@ cmd.call(com.split())
 for f in test_files:
     output_file = f[:-2]
     com = "gcc -o " + bin_folder + output_file + " " + f + " -I " + lib_inc
-    print(com)
     cmd.call(com.split())
 
 #############################################################
