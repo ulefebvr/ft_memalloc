@@ -20,7 +20,6 @@ lib_inc = "../includes"
 #############################################################
 # functions
 def page_reclaims(prog):
-    # com = "./run.sh /usr/bin/time -l ./" + bin_folder + prog
     com = "./run.sh /usr/bin/time -l ./" + bin_folder + prog
     pipe = cmd.Popen(com.split(), stdout=cmd.PIPE, stderr=cmd.PIPE)
     output, errput = pipe.communicate()
@@ -67,6 +66,8 @@ cmd.call(com.split())
 for f in test_files:
     output_file = f[:-2]
     com = "gcc -o " + bin_folder + output_file + " " + f + " -I " + lib_inc
+    if output_file == "test6" :
+        com = com + " -lpthread"
     cmd.call(com.split())
 
 #############################################################
