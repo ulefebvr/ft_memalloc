@@ -24,7 +24,8 @@ void	show_all_blocks(t_header_block *block)
 
 void	show_all_pages(t_header_page *pages, char *typename)
 {
-	ft_fdprint(2, "%s\n", typename);
+	if (pages)
+		ft_fdprint(2, "%s\n", typename);
 	while (pages)
 	{
 		show_all_blocks(pages->reserved);

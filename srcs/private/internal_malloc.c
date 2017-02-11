@@ -72,6 +72,7 @@ static void				*create_large_block(size_t size)
 	g_malloc.large_list = block;
 	block->ptr = (char *)ptr + S_HBLOCK;
 	block->size = size;
+	block->capacity = PAGE_SIZE_MULTIPLE(size + S_HBLOCK);
 	return (block->ptr);
 }
 
