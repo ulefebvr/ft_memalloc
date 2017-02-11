@@ -14,7 +14,7 @@ os.chdir(os.path.dirname(os.path.abspath(sys.argv[0])))
 
 bin_folder = "bin/"
 test_files = ["test0.c", "test1.c", "test2.c", "test3.c",
-        "test3_5.c", "test4.c"]
+        "test3_5.c", "test4.c", "test6.c"]
 lib_inc = "../includes"
 
 #############################################################
@@ -116,6 +116,11 @@ cmp_output("test3", "Bonjours\nBonjours\n")
 # Realloc ++
 print("#####Test realloc++")
 cmp_output("test3_5", "Bonjours\nBonjours\n")
+
+#############################################################
+# Thread Safety Test
+print("#####Test Thread-Safe")
+cmp_output("test6", "oo")
 
 #############################################################
 # Errors
