@@ -7,6 +7,8 @@ import subprocess as cmd
 import os
 import sys
 import shlex
+import glob
+import string
 
 os.chdir(os.path.dirname(os.path.abspath(sys.argv[0])))
 
@@ -36,12 +38,21 @@ def cmd_output(com):
 def cmd_output_only(com):
     pipe = cmd.Popen(com, stdout=cmd.PIPE, stderr=cmd.PIPE)
     output, errput = pipe.communicate()
-    return output
+    return errput
 
 def cmp_output(prog, to_compare):
     com = "./run.sh ./" + bin_folder + prog
     output = cmd_output(com.split())
     if output[0] == to_compare:
+        print("OK")
+    else:
+        print("ERROR")
+
+def cmp_output_command(command):
+    com = "./run.sh " + command
+    output = cmd_output(com.split())
+    output1 = cmd_output(command.split())
+    if output[0] == output1[0]:
         print("OK")
     else:
         print("ERROR")
@@ -112,13 +123,41 @@ print("#####Test errors")
 cmp_output("test4", "Bonjours\n")
 
 #############################################################
-show_alloc_mem
-For this test to work, you need to have the libmalloc_darwin...
-in the current directory.
+# show_alloc_mem
+# For this test to work, you need to have the libmalloc_darwin...
+# in the current directory.
 print("#####Test print_alloc_mem")
-com = "gcc"+ " -L../ " + " -Wall -Wno-unused-result -o " + bin_folder + "test5" + " " + "test5.c" + " -lft_malloc -I../includes"
+com = "cp " + string.join(glob.glob('../libft_malloc*')) + " ./"
+cmd.Popen(com.split())
+com = "gcc test5.c -o " + bin_folder + "test5 -L. -lft_malloc -I../includes"
 cmd.call(com.split())
-com = "./run.sh " + bin_folder + "test5"
+com = "./" + bin_folder + "test5"
 output = cmd_output_only(com.split())
+com = "rm " + string.join(glob.glob('libft_malloc*'))
+cmd.call(com.split())
 print(output)
 
+#############################################################
+# run `ls` command with the malloc library
+print("#####Test `ls` command")
+cmp_output_command("ls")
+
+#############################################################
+# run `ls` command with the malloc library
+print("#####Test `ls -l` command")
+cmp_output_command("ls -l")
+
+#############################################################
+# run `ls` command with the malloc library
+print("#####Test `ls -lR ..` command")
+cmp_output_command("ls -lR ..")
+
+#############################################################
+# run `ls` command with the malloc library
+print("#####Test `ls -Rla ~` command")
+cmp_output_command("ls -Rla ~")
+
+#############################################################
+# run `ls` command with the malloc library
+print("#####Test `grep malloc *` command")
+cmp_output_command("grep malloc " + string.join(glob.glob('*')))
