@@ -9,6 +9,7 @@ import sys
 import shlex
 import glob
 import string
+import platform
 
 os.chdir(os.path.dirname(os.path.abspath(sys.argv[0])))
 
@@ -17,10 +18,17 @@ test_files = ["test0.c", "test1.c", "test2.c", "test3.c",
         "test3_5.c", "test4.c", "test6.c"]
 lib_inc = "../includes"
 
+if (platform.system == "Linux") :
+    com = "gcc -Wall -Werror -Wextra timel.c -o timel"
+    cmd.call(com.split());
+    time_path = "./timel"
+else :
+    time_path = "/usr/bin/time -l"
+
 #############################################################
 # functions
 def page_reclaims(prog):
-    com = "./run.sh /usr/bin/time -l ./" + bin_folder + prog
+    com = "./run.sh " + time_path + " -l ./" + bin_folder + prog
     pipe = cmd.Popen(com.split(), stdout=cmd.PIPE, stderr=cmd.PIPE)
     output, errput = pipe.communicate()
     m = re.search('([0-9]+?)[ \t]+page[ \t]+reclaims', errput)
