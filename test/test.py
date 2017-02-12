@@ -111,21 +111,25 @@ print("")
 # Realloc
 print("#####Test realloc")
 cmp_output("test3", "Bonjours\nBonjours\n")
+print("")
 
 #############################################################
 # Realloc ++
 print("#####Test realloc++")
 cmp_output("test3_5", "Bonjours\nBonjours\n")
+print("")
 
 #############################################################
 # Thread Safety Test
 print("#####Test Thread-Safe")
 cmp_output("test6", "oo")
+print("")
 
 #############################################################
 # Errors
 print("#####Test errors")
 cmp_output("test4", "Bonjours\n")
+print("")
 
 #############################################################
 # show_alloc_mem
@@ -146,23 +150,28 @@ print(output)
 # run `ls` command with the malloc library
 print("#####Test `ls` command")
 cmp_output_command("ls")
+print("")
 
 #############################################################
 # run `ls` command with the malloc library
 print("#####Test `ls -l` command")
 cmp_output_command("ls -l")
+print("")
 
 #############################################################
 # run `ls` command with the malloc library
 print("#####Test `ls -lR ..` command")
 cmp_output_command("ls -lR ..")
+print("")
 
 #############################################################
 # run `ls` command with the malloc library
 print("#####Test `ls -Rla ~` command")
 cmp_output_command("ls -Rla ~")
+print("")
 
 #############################################################
 # run `grep` command with the malloc library
 print("#####Test `grep malloc *` command")
 cmp_output_command("grep malloc " + string.join(glob.glob('*')))
+print("")
