@@ -25,9 +25,9 @@ void		*loop(void *s)
 	while (i < 1024)
 	{
 		addr = (char*)malloc(128);
-		memset(addr, (int)"A", 128);
+		memset(addr, (int)'A', 128);
 		addr = realloc(addr, 1024);
-		memset(addr, (int)"B", 1024);
+		memset(addr, (int)'B', 1024);
 		free(addr);
 		i++;
 	}

@@ -18,7 +18,7 @@ test_files = ["test0.c", "test1.c", "test2.c", "test3.c",
         "test3_5.c", "test4.c", "test6.c"]
 lib_inc = "../includes"
 
-if (platform.system == "Linux") :
+if (platform.system() == "Linux") :
     com = "gcc -Wall -Werror -Wextra timel.c -o timel"
     cmd.call(com.split());
     time_path = "./timel"
@@ -28,7 +28,7 @@ else :
 #############################################################
 # functions
 def page_reclaims(prog):
-    com = "./run.sh " + time_path + " -l ./" + bin_folder + prog
+    com = "./run.sh " + time_path + " ./" + bin_folder + prog
     pipe = cmd.Popen(com.split(), stdout=cmd.PIPE, stderr=cmd.PIPE)
     output, errput = pipe.communicate()
     m = re.search('([0-9]+?)[ \t]+page[ \t]+reclaims', errput)
